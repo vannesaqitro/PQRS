@@ -1,7 +1,5 @@
 $(document).ready(function(){
-
-	console.log('hola  funciona');
-	
+	listar();
 	$('#resultadoBusqueda').hide(); //seleccionar elemento resultadoBusqueda y se oculta
 
 	$('#search').keyup(function(e){
@@ -21,7 +19,8 @@ $(document).ready(function(){
 				 		`<li> ${ingresado.nombre} </li> ` //va a obtener el nombre del servidor, recogiendolas y mostrandolas en lista
 					 });
 					 //selecciona el id container y pongale los datos del template
-					  $('#container').html(template);	
+					  $('#container').html(template);
+
 					  $('#resultadoBusqueda').show();		//mostrar elemento	 
 				}
 			});
@@ -44,7 +43,7 @@ $(document).ready(function(){
 			e.preventDefault(); //hace que no se refresque la pagina.
 		});
 //
-		function listar() { console.log("tengo hambre" );  
+		function listar() {   
 			$.ajax({
 			url:'listar_peticion.php',
 			type: 'GET',
@@ -54,15 +53,17 @@ $(document).ready(function(){
 					ingresados.forEach(ingresado =>{
 						console.log("datos",ingresado);
 						 template += `
-							<tr>
-							<td> ${ingresado.nombre} </td>
-							<td>${ingresado.correo} </td>
-							<td>${ingresado.comentario} </td>
-							<td>
-								<button class="p-delete btn btn-danger">
+							<tr id_="${ingresado.id}">
+
+								<td> ${ingresado.id} </td>
+								<td> ${ingresado.nombre} </td>
+								<td>${ingresado.correo} </td>
+								<td>${ingresado.comentario} </td>
+								<td>
+									<button class="p-delete btn btn-danger">
 									eliminar
-								</button>
-							</td>
+									</button>
+								</td>
 							</tr>`
 					});
 					$('#tabla').html(template);
@@ -71,8 +72,11 @@ $(document).ready(function(){
 		}
 		
 		$(document).on('click','.p-delete', function(){
+			
 			let element = $(this)[0].parentElement.parentElement;
-			$(element)
-			console.log(element);
+			let id = $(element).attr('id_');
+			$.post('eliminar_pqrs.php', {id}, function(response){
+				listar();
+			} )
 		})
 });

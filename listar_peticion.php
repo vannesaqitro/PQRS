@@ -1,5 +1,6 @@
 <?php 
-	include('index.php');
+
+	include('coneccion.php');
 
 	$query = "SELECT * from ingresados";
 	$result=mysqli_query($connection, $query);
@@ -10,6 +11,7 @@
 	$json= array();
 	while ($row = mysqli_fetch_array($result)) {
 		$json[] = array(
+			'id'=> $row['id'],
 			'nombre'=> $row['nombre'],
 			'correo'=> $row['correo'],
 			'comentario'=> $row['Comentario']

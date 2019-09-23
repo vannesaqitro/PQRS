@@ -1,6 +1,6 @@
  <?php 
 
-		include('index.php');
+		include('coneccion.php');
 		$search = $_POST['search'];
 
 		if (!empty($search)) {
@@ -12,6 +12,7 @@
 		$json = array();
 		while ($row = mysqli_fetch_array($result)) {
 			$json[]= array(
+				'id'=> $row['id'],
 				'nombre'=> $row['nombre'],
 				'correo' => $row ['correo'],
 				'comentario' => $row['Comentario']
